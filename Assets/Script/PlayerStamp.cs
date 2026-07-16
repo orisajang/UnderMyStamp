@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
-enum eStampColor
+public enum eStampColor
 {
     Red, Green
 }
