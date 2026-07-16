@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
-    CustomerSO customerData;
+    [field: SerializeField] public CustomerSO customerData { get; private set; }
 
     public void Init(CustomerSO data)
     {

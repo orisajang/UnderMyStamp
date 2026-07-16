@@ -23,7 +23,7 @@ public class CustomerSpawner : MonoBehaviour
         //_customerPool = new ObjPool<Customer>(_customerPrefab, poolSize, gameObject.transform);
     }
 
-    private void OnEnable()
+    private void Start()
     {
         _customerSOList = ResourceManager.Instance.customerSOList;
         for (int i = 0; i < _customerSOList.Count; i++)
@@ -52,10 +52,11 @@ public class CustomerSpawner : MonoBehaviour
         return expBuf;
     }
     //오브젝트 반환 (반환이벤트없으면 public으로 써도됨)
-    private void ReturnCustomerToPool(CustomerSO dataType, Customer expPoint)
+    public void ReturnCustomerToPool(Customer customer)
     {
-        ObjPool<Customer> pool = dict[dataType];
-        pool.ReturnObject(expPoint);
+        CustomerSO soType = customer.customerData;
+        ObjPool<Customer> pool = dict[soType];
+        pool.ReturnObject(customer);
         //expPoint._destroyExpPoint -= ReturnExpPointToPool;
 
         //경험치를 주웠을때 
