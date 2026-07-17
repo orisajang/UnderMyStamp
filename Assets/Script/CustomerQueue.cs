@@ -84,6 +84,11 @@ public class CustomerQueue : MonoBehaviour
         Customer customer = customerList[0];
         customerList.RemoveAt(0);
         curLineIndex--;
+
+        //이 지운 사람의 정보를 보내보자. 그리고? 전투를 담당하는 곳을 지정해볼까?
+
+
+
         //애니메이션 처리로 인해서 n초전까지는 표시하고 후에 해당 객체를 풀에 반환할듯 (일단 바로 반환하자)
         CustomerSpawner.Instance.ReturnCustomerToPool(customer);
         // 이제 앞으로 한칸씩 땅겨야함.

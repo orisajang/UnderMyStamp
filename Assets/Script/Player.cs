@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 
@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
         scale.x *= -1;
         playerModelObject.transform.localScale = scale;
         playerStamp.ChangeStampColor();
-        
+    }
+    public eStampColor ReturnStampColor()
+    {
+        return playerStamp.StampColor;
     }
 }

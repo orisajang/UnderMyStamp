@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241b5280517821645895ec0170bcf52c, type: 3}
   m_Name: CustomerData_Red1
   m_EditorClassIdentifier: 
-  <answerColor>k__BackingField: 0
+  <answerColor>k__BackingField: 1
   <prefab>k__BackingField: {fileID: 4801319748041729393, guid: dbd9ab237ad265b4990b293c45106274, type: 3}
   <weight>k__BackingField: 10
