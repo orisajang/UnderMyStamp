@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public int Combo { get; private set; }
     public int FeverGage { get; private set; }
 
+    private int maxCombo;
+
     bool isFever = false;
 
     //UI
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] ComboTextUI comboTextUI;
     [SerializeField] ScoreTextUI scoreTextUI;
     [SerializeField] FeverBarUI feverBarUI;
+    [SerializeField] GameResultCanvas gameOverCanvas;
+    [SerializeField] BackgroundChanger backgroundChanger;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        timeUI.OnGameOver += GameOver;
         UpdateUI();
     }
     private void OnEnable()
@@ -46,9 +51,18 @@ public class GameManager : MonoBehaviour
     {
         feverBarUI.OnFeverEnd -= FeverEnd;
     }
+    public void FeverStart()
+    {
+        FeverGage = 0;
+        //피버 발생 넣기
+        isFever = true;
+        feverBarUI.OnFever(maxFeverGage);
+        backgroundChanger.FeverStart();
+    }
     public void FeverEnd()
     {
         isFever = false;
+        backgroundChanger.FeverEnd();
     }
     public void UpdateUI()
     {
@@ -58,8 +72,9 @@ public class GameManager : MonoBehaviour
 
     public void WrongAnswer()
     {
-        //콤보만 끊고 끝.
+        //콤보끊고 시간 게이지 감소시켜야함.
         Combo = 0;
+        timeUI.DecreaseTime();
         UpdateUI();
     }
 
@@ -72,10 +87,8 @@ public class GameManager : MonoBehaviour
             float feverRatio = (float)FeverGage / maxFeverGage;
             if (FeverGage >= maxFeverGage)
             {
-                FeverGage = 0;
-                //피버 발생 넣기
-                isFever = true;
-                feverBarUI.OnFever(maxFeverGage);
+                //피버 시작
+                FeverStart();
             }
             else
             {
@@ -87,6 +100,7 @@ public class GameManager : MonoBehaviour
         int jumsu =  CalcEarnScore();
         Score += jumsu;
         Combo++;
+        if (maxCombo < Combo) { maxCombo = Combo; }
         //시간도 올라야하는데?
         timeUI.IncreaseTime();
         //UI 갱신
@@ -115,6 +129,11 @@ public class GameManager : MonoBehaviour
         return jumsu;
     }
 
-
+    public void GameOver()
+    {
+        //게임 오버처리
+        gameOverCanvas.SetResultInfo(Score, maxCombo);
+        gameOverCanvas.gameObject.SetActive(true);
+    }
 
 }
