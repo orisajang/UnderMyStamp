@@ -17,24 +17,37 @@ public class TimeUI : MonoBehaviour
     [SerializeField] float decreaseSpeed = 1f;
     [SerializeField] float increaseSpeed = 0.2f;
 
-    bool isActive = true;
+    bool isGameOver = true;
     float remainTime = 0;
     public event Action OnGameOver;
+
+    bool isFever = false;
 
     private void Awake()
     {
         remainTime = maxTime;
     }
+    public void FeverStart()
+    {
+        //피버 상태로 인한 타이머 정지, 최대치로 시간 증가
+        isFever = true;
+        remainTime = maxTime;
+        ChangeTimeInfo(remainTime / maxTime);
+    }
+    public void FeverEnd()
+    {
+        isFever = false;
+    }
 
     private void Update()
     {
-        if (!isActive) return;
+        if (!isGameOver || isFever) return;
         decreaseSpeed += increaseSpeed * Time.deltaTime;
         remainTime -= decreaseSpeed * Time.deltaTime;
         ChangeTimeInfo(remainTime / maxTime);
         if(remainTime < 0)
         {
-            isActive = false;
+            isGameOver = false;
             OnGameOver?.Invoke();
         }
 

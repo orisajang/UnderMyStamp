@@ -58,11 +58,13 @@ public class GameManager : MonoBehaviour
         isFever = true;
         feverBarUI.OnFever(maxFeverGage);
         backgroundChanger.FeverStart();
+        timeUI.FeverStart();
     }
     public void FeverEnd()
     {
         isFever = false;
         backgroundChanger.FeverEnd();
+        timeUI.FeverEnd();
     }
     public void UpdateUI()
     {
@@ -101,6 +103,8 @@ public class GameManager : MonoBehaviour
         Score += jumsu;
         Combo++;
         if (maxCombo < Combo) { maxCombo = Combo; }
+        //점수 표시
+        EarnedTextManager.Instance.ShowText(jumsu.ToString());
         //시간도 올라야하는데?
         timeUI.IncreaseTime();
         //UI 갱신
