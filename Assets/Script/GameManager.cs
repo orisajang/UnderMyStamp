@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] FeverBarUI feverBarUI;
     [SerializeField] GameResultCanvas gameOverCanvas;
     [SerializeField] BackgroundChanger backgroundChanger;
+    [SerializeField] GameStartCanvas gameStartCanvas;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,16 +41,25 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        timeUI.OnGameOver += GameOver;
-        UpdateUI();
+        InitScoreInfo();
+        timeUI.PauseTime();
     }
     private void OnEnable()
     {
+        timeUI.OnGameOver += GameOver;
         feverBarUI.OnFeverEnd += FeverEnd;
+        gameStartCanvas.OnTimerEnd += GameStart;
     }
     private void OnDisable()
     {
+        timeUI.OnGameOver -= GameOver;
         feverBarUI.OnFeverEnd -= FeverEnd;
+        gameStartCanvas.OnTimerEnd -= GameStart;
+    }
+    public void GameStart()
+    {
+        timeUI.Init();
+        feverBarUI.Init();
     }
     public void FeverStart()
     {
@@ -135,6 +145,16 @@ public class GameManager : MonoBehaviour
         return jumsu;
     }
 
+    private void InitScoreInfo()
+    {
+        Score = 0;
+        Combo = 0;
+        FeverGage = 0;
+        maxCombo = 0;
+        isFever = false;
+        UpdateUI();
+    }
+
     public void GameOver()
     {
         //게임 오버처리
@@ -144,16 +164,24 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         //일시정지 상태로 만들어야함.
-        //멈춰야되는거는? 시간만 멈추면됨.
-        timeUI.PuaseTime();
+        //멈춰야되는거는? 시간, 피버 상태일 경우 게이지 감소 멈추기
+        timeUI.PauseTime();
+        feverBarUI.PauseTime();
+
     }
     public void PauseCancelGame()
     {
         timeUI.PauseCancel();
+        feverBarUI.PauseCancel();
     }
-    public void InitGameStatus()
+    public void RestartGame()
     {
         //다시시작을 위한 기능
+        CustomerQueue.Instance.Init();
+        timeUI.PauseTime(); //처음에 멈춰놔야함
+
+        InitScoreInfo(); 
+        gameStartCanvas.gameObject.SetActive(true);
     }
     public void Exit()
     {

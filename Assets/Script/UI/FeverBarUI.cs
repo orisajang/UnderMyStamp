@@ -7,6 +7,7 @@ public class FeverBarUI : MonoBehaviour
     [SerializeField] Image barImage;
 
     bool isFever = false;
+    bool isPause = false;
 
     float curTime;
     float maxTime;
@@ -24,11 +25,27 @@ public class FeverBarUI : MonoBehaviour
         curTime = 0;
     }
 
+    public void PauseTime()
+    {
+        isPause = true;
+    }
+    public void PauseCancel()
+    {
+        isPause = false;
+    }
+    public void Init()
+    {
+        isPause = false;
+        isFever = false;
+        curTime = 0;
+        SetImageRatio(0);
+    }
+
 
     private void Update()
     {
         
-        if(isFever)
+        if(isFever && !isPause)
         {
             curTime += Time.deltaTime;
             float ratio = 1f - (curTime / maxTime);

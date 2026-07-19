@@ -28,6 +28,8 @@ public class PauseCanvas : MonoBehaviour
     private void TryAgain()
     {
         //다시 시작.
+        GameManager.Instance.RestartGame();
+        this.gameObject.SetActive(false);
     }
     private void Exit()
     {

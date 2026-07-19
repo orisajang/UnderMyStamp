@@ -34,10 +34,7 @@ public class CustomerQueue : MonoBehaviour
         {
             total += so.weight;
         }
-        for(int i=0; i< queuePositionList.Count; i++)
-        {
-            MakeCustomer();
-        }
+        Init();
     }
     private void OnDestroy()
     {
@@ -62,6 +59,21 @@ public class CustomerQueue : MonoBehaviour
         return selIndex;
     }
 
+    public void Init()
+    {
+        //다시하기로 인해서 손님을 처음부터 다시 만들어야 한다면?
+        curLineIndex = 0;
+        foreach(var customer in customerList)
+        {
+            CustomerSpawner.Instance.ReturnCustomerToPool(customer);
+        }
+        customerList.Clear();
+        for (int i = 0; i < queuePositionList.Count; i++)
+        {
+            MakeCustomer();
+        }
+    }
+
     public void MakeCustomer()
     {
         //3명 가능, 0 1 2 3
@@ -84,11 +96,6 @@ public class CustomerQueue : MonoBehaviour
         Customer customer = customerList[0];
         customerList.RemoveAt(0);
         curLineIndex--;
-
-        //이 지운 사람의 정보를 보내보자. 그리고? 전투를 담당하는 곳을 지정해볼까?
-
-
-
         //애니메이션 처리로 인해서 n초전까지는 표시하고 후에 해당 객체를 풀에 반환할듯 (일단 바로 반환하자)
         CustomerSpawner.Instance.ReturnCustomerToPool(customer);
         // 이제 앞으로 한칸씩 땅겨야함.
