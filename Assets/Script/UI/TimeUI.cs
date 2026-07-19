@@ -22,6 +22,7 @@ public class TimeUI : MonoBehaviour
     public event Action OnGameOver;
 
     bool isFever = false;
+    bool isPause = false;
 
     private void Awake()
     {
@@ -38,10 +39,17 @@ public class TimeUI : MonoBehaviour
     {
         isFever = false;
     }
-
+    public void PuaseTime()
+    {
+        isPause = true;
+    }
+    public void PauseCancel()
+    {
+        isPause = false;
+    }
     private void Update()
     {
-        if (!isGameOver || isFever) return;
+        if (!isGameOver || isFever || isPause) return;
         decreaseSpeed += increaseSpeed * Time.deltaTime;
         remainTime -= decreaseSpeed * Time.deltaTime;
         ChangeTimeInfo(remainTime / maxTime);

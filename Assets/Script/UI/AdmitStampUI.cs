@@ -22,7 +22,7 @@ public class AdmitStampUI : MonoBehaviour
         Customer customer = CustomerQueue.Instance.ReturnCustomer();
         //이 정보를 플레이어 도장색과 비교하도록 해야하는데 일단은 보류. 
         BattleManager.Instance.CheckResult(customer);
-
+        SoundManager.Instance.PlaySFX(eSoundType.StampSound);
     }
 
 }

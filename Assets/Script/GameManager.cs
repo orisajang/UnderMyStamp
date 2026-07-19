@@ -59,12 +59,14 @@ public class GameManager : MonoBehaviour
         feverBarUI.OnFever(maxFeverGage);
         backgroundChanger.FeverStart();
         timeUI.FeverStart();
+        SoundManager.Instance.PlaySFX(eSoundType.CatSound);
     }
     public void FeverEnd()
     {
         isFever = false;
         backgroundChanger.FeverEnd();
         timeUI.FeverEnd();
+        SoundManager.Instance.PlaySFX(eSoundType.CatSound);
     }
     public void UpdateUI()
     {
@@ -138,6 +140,24 @@ public class GameManager : MonoBehaviour
         //게임 오버처리
         gameOverCanvas.SetResultInfo(Score, maxCombo);
         gameOverCanvas.gameObject.SetActive(true);
+    }
+    public void PauseGame()
+    {
+        //일시정지 상태로 만들어야함.
+        //멈춰야되는거는? 시간만 멈추면됨.
+        timeUI.PuaseTime();
+    }
+    public void PauseCancelGame()
+    {
+        timeUI.PauseCancel();
+    }
+    public void InitGameStatus()
+    {
+        //다시시작을 위한 기능
+    }
+    public void Exit()
+    {
+        //게임 종료. 타이틀로 이동한다.
     }
 
 }
