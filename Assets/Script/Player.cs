@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     PlayerStamp playerStamp;
     [SerializeField] GameObject playerStampModel;
     public ePlayerState playerState { get; private set; }
+
+    bool isLeft = true;
+
     private void Awake()
     {
         playerStamp = GetComponentInChildren<PlayerStamp>();
@@ -26,10 +29,26 @@ public class Player : MonoBehaviour
     public void RequestChangeStamp()
     {
         //플레이어 모델을 변경하면 플레이어와 도장의 모델까지 좌우반전으로 전부 변경될거라 모델만 변경하면 된다
+        //isLeft = !isLeft;
+        //UpdatePlayerSpriteDirection();
+
+
+        playerStamp.ChangeStampColor();
         Vector3 scale = playerModelObject.transform.localScale;
         scale.x *= -1;
         playerModelObject.transform.localScale = scale;
-        playerStamp.ChangeStampColor();
+    }
+    private void UpdatePlayerSpriteDirection()
+    {
+        switch(isLeft)
+        {
+            case true:
+                playerSprite.flipX = false;
+                break;
+            case false:
+                playerSprite.flipX = true;
+                break;
+        }
     }
     public void UpdatePlayerSprite()
     {

@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     WaitForSeconds delay;
     Coroutine showStampCor;
 
+    //전부 처리 끝나고 고객이 나가는 위치
+    [SerializeField] Transform exitPosition;
 
     private void Awake()
     {
@@ -94,8 +96,12 @@ public class GameManager : MonoBehaviour
         scoreTextUI.ChangeText(Score);
     }
 
-    public void WrongAnswer()
+    public void WrongAnswer(Customer customer)
     {
+        //고객 이미지 변경
+        customer.SetSprite(eCustomerState.Fail);
+        customer.transform.position = exitPosition.position;
+        customer.IncrementSortNumber();
         //콤보끊고 시간 게이지 감소시켜야함.
         Combo = 0;
         timeUI.DecreaseTime();
@@ -119,10 +125,14 @@ public class GameManager : MonoBehaviour
         showStampCor = null;
     }
 
-    public void CorrectAnswer()
+    public void CorrectAnswer(Customer customer)
     {
+        //고객의 상태 변경
+        customer.SetSprite(eCustomerState.Success);
+        customer.transform.position = exitPosition.position;
+        customer.IncrementSortNumber();
         //피버
-        if(!isFever)
+        if (!isFever)
         {
             FeverGage += 1;
             float feverRatio = (float)FeverGage / maxFeverGage;

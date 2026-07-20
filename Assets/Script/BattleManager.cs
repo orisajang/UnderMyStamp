@@ -35,12 +35,12 @@ public class BattleManager : MonoBehaviour
         if(plrStampColor == stampColor)
         {
             //정답. 처리를 진행하자
-            GameManager.Instance.CorrectAnswer();
+            GameManager.Instance.CorrectAnswer(customer);
         }
         else
         {
             //오답. 
-            GameManager.Instance.WrongAnswer();
+            GameManager.Instance.WrongAnswer(customer);
         }
 
     }
