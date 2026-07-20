@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -22,6 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameResultCanvas gameOverCanvas;
     [SerializeField] BackgroundChanger backgroundChanger;
     [SerializeField] GameStartCanvas gameStartCanvas;
+
+    //스탬프
+    float delayTime = 0.2f;
+    WaitForSeconds delay;
+    Coroutine showStampCor;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -31,6 +39,8 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+
+        delay = new WaitForSeconds(delayTime);
     }
 
     private void OnDestroy()
@@ -90,6 +100,23 @@ public class GameManager : MonoBehaviour
         Combo = 0;
         timeUI.DecreaseTime();
         UpdateUI();
+    }
+    public void ShowStampEffect()
+    {
+        if(showStampCor != null)
+        {
+            StopCoroutine(showStampCor);
+            showStampCor = null;
+        }
+        showStampCor = StartCoroutine(ShowStampEffectCor());
+    }
+
+    IEnumerator ShowStampEffectCor()
+    {
+        currentPlayer.ShowStampEffect();
+        yield return delay;
+        currentPlayer.StopStampEffect();
+        showStampCor = null;
     }
 
     public void CorrectAnswer()

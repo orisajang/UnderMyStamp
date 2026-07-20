@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public enum eStampColor
@@ -12,9 +13,17 @@ public class PlayerStamp : MonoBehaviour
     SpriteRenderer stempRenderer;
     public eStampColor StampColor { get; private set; }
 
+    StampEffectScript effectScript;
+
+    float delayTime = 1f;
+    WaitForSeconds delay;
+    Coroutine showEffectCor;
+
     private void Awake()
     {
         stempRenderer = GetComponentInChildren<SpriteRenderer>();
+        effectScript = GetComponentInChildren<StampEffectScript>();
+        delay = new WaitForSeconds(delayTime);
     }
     public void ChangeStampColor()
     {
@@ -29,5 +38,23 @@ public class PlayerStamp : MonoBehaviour
         }
         //스탬프 색깔을 바꿈
         stempRenderer.sprite = stampSpriteList[(int)StampColor];
+    }
+    public void ShowStampEffect()
+    {
+        switch (StampColor)
+        {
+            case eStampColor.Green:
+                effectScript.ShowGreenStampEffect();
+                break;
+            case eStampColor.Red:
+                effectScript.ShowRedStampEffect();
+                break;
+        }
+    }
+
+
+    public void InitStampEffect()
+    {
+        effectScript.Init();
     }
 }
