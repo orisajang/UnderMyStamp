@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     float delayTime = 0.2f;
     WaitForSeconds delay;
     Coroutine showStampCor;
+
 
     //전부 처리 끝나고 고객이 나가는 위치
     [SerializeField] Transform exitPosition;
@@ -115,6 +117,12 @@ public class GameManager : MonoBehaviour
             showStampCor = null;
         }
         showStampCor = StartCoroutine(ShowStampEffectCor());
+
+        //화면 흔들림 1회 추가
+        float duration = 0.15f;
+        float strength = 0.2f;
+        Camera.main.DOComplete();
+        Camera.main.DOShakePosition(duration, strength);
     }
 
     IEnumerator ShowStampEffectCor()
