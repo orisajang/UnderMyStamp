@@ -10,11 +10,12 @@ public class TimeUI : MonoBehaviour
     //로직 (추후 분리 필요하면 분리하자)
     [SerializeField] float maxTime = 10f;
     [SerializeField] float plusTime = 0.5f;
-    [SerializeField] float decreaseSpeed = 1f;
+    [SerializeField] float baseDecreaseSpeed = 1f;
     [SerializeField] float increaseSpeed = 0.2f;
 
-    
+    float wrongRatio = 1.5f;
     float remainTime = 0;
+    float curDecreaseSpeed;
     public event Action OnGameOver;
     bool isGameOver = false;
     bool isFever = false;
@@ -22,7 +23,7 @@ public class TimeUI : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        Init(false);
     }
     public void ChangeTimeInfo(float ratio)
     {
@@ -47,23 +48,24 @@ public class TimeUI : MonoBehaviour
     {
         isPause = false;
     }
-    public void Init()
+    public void Init(bool pauseAble)
     {
-        isPause = false;
+        isPause = pauseAble; //초기화할때 멈춰있어야하는지 체크
         isGameOver = false;
         isFever = false;
         remainTime = maxTime;
+        curDecreaseSpeed = baseDecreaseSpeed;
         ChangeTimeInfo(remainTime / maxTime);
     }
     private void Update()
     {
         if (isGameOver || isFever || isPause) return;
-        decreaseSpeed += increaseSpeed * Time.deltaTime;
-        remainTime -= decreaseSpeed * Time.deltaTime;
+        curDecreaseSpeed += increaseSpeed * Time.deltaTime;
+        remainTime -= curDecreaseSpeed * Time.deltaTime;
         ChangeTimeInfo(remainTime / maxTime);
         if(remainTime < 0)
         {
-            isGameOver = false;
+            isGameOver = true;
             OnGameOver?.Invoke();
         }
 
@@ -79,7 +81,7 @@ public class TimeUI : MonoBehaviour
     }
     public void DecreaseTime()
     {
-        remainTime -= plusTime;
+        remainTime -= (plusTime * wrongRatio);
         if(remainTime < 0)
         {
             remainTime = 0;
