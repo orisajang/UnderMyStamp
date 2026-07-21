@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
         eStampColor plrStampColor = plr.ReturnStampColor();
         eStampColor stampColor = customer.customerData.answerColor;
 
-        if(plrStampColor == stampColor)
+        if(GameManager.Instance.IsFever() || plrStampColor == stampColor)
         {
             //정답. 처리를 진행하자
             GameManager.Instance.CorrectAnswer(customer);

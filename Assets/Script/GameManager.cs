@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     private int maxCombo;
 
+    private int correctCount = 0;
+
     bool isFever = false;
 
     //UI
@@ -98,6 +100,11 @@ public class GameManager : MonoBehaviour
         scoreTextUI.ChangeText(Score);
     }
 
+    public bool IsFever()
+    {
+        return isFever;
+    }
+
     public void WrongAnswer(Customer customer)
     {
         //고객 이미지 변경
@@ -135,6 +142,14 @@ public class GameManager : MonoBehaviour
 
     public void CorrectAnswer(Customer customer)
     {
+        //정답을 맞출때마다 뒤의 서류 종이 산을 추가
+        correctCount++;
+        if(correctCount % 3 == 0)
+        {
+            PaperMountainSpawner.Instance.GetPaperByPool();
+        }
+
+
         //고객의 상태 변경
         customer.SetSprite(eCustomerState.Success);
         customer.transform.position = exitPosition.position;
@@ -227,6 +242,12 @@ public class GameManager : MonoBehaviour
 
         InitScoreInfo(); 
         gameStartCanvas.gameObject.SetActive(true);
+    }
+    public void RestartGame_GameEnd()
+    {
+        //게임 한판 끝나고 난 이후 다시 시작할때
+        gameOverCanvas.gameObject.SetActive(false);
+        RestartGame();
     }
     public void Exit()
     {

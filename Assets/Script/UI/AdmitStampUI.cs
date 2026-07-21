@@ -20,6 +20,7 @@ public class AdmitStampUI : MonoBehaviour
     private void OnAdmitButton()
     {
         Customer customer = CustomerQueue.Instance.ReturnCustomer();
+        if (customer == null) return;
         //이펙트와 사운드
         GameManager.Instance.ShowStampEffect();
         SoundManager.Instance.PlaySFX(eSoundType.StampSound);

@@ -16,16 +16,12 @@ public class Player : MonoBehaviour
     [SerializeField] Sprite crashStampImage;
 
     //스탬프
-    PlayerStamp playerStamp;
+    [SerializeField] PlayerStamp playerStamp;
     [SerializeField] GameObject playerStampModel;
     public ePlayerState playerState { get; private set; }
 
     bool isLeft = true;
 
-    private void Awake()
-    {
-        playerStamp = GetComponentInChildren<PlayerStamp>();
-    }
     public void RequestChangeStamp()
     {
         //플레이어 모델을 변경하면 플레이어와 도장의 모델까지 좌우반전으로 전부 변경될거라 모델만 변경하면 된다

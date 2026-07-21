@@ -23,7 +23,7 @@ public class BackgroundChanger : MonoBehaviour
         {
             cor = StartCoroutine(FeverCor());
         }
-        basicBackground.gameObject.SetActive(false);
+        //basicBackground.gameObject.SetActive(false);
     }
     public void FeverEnd()
     {
@@ -36,7 +36,7 @@ public class BackgroundChanger : MonoBehaviour
         {
             bg.gameObject.SetActive(false);
         }
-        basicBackground.gameObject.SetActive(true);
+        //basicBackground.gameObject.SetActive(true);
     }
 
     IEnumerator FeverCor()
