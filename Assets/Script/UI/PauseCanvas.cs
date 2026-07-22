@@ -11,14 +11,13 @@ public class PauseCanvas : MonoBehaviour
     {
         continueButton.onClick.AddListener(Continue);
         TryAgainButton.onClick.AddListener(TryAgain);
-
+        ExitButton.onClick.AddListener(Exit);
     }
     private void OnDestroy()
     {
         continueButton.onClick.RemoveAllListeners();
         TryAgainButton.onClick.RemoveAllListeners();
         ExitButton.onClick.RemoveAllListeners();
-
     }
     private void Continue()
     {
@@ -33,7 +32,7 @@ public class PauseCanvas : MonoBehaviour
     }
     private void Exit()
     {
-        //타이틀 화면으로 나가야할듯
+        Application.Quit();
     }
 
 }
